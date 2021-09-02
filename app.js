@@ -2,8 +2,10 @@
 const searchBook = ()=>{
     const input = document.getElementById('input');
     const inputValue = input.value;
+
     // Clear Input Box
     input.value = '';
+
     // Getting the URL and then fethcing it
     const url = `https://openlibrary.org/search.json?q=${inputValue}`
     fetch(url)
@@ -11,13 +13,17 @@ const searchBook = ()=>{
     .then(data=>displaySearchResult(data));
 }
 
+
+
 // Showing The data 
 const displaySearchResult = books =>{
     const searchResult = document.getElementById('div');
+
     // Cleaning the searchResult area
     searchResult.innerHTML = '';
     const total = document.getElementById('total-result');
-    total.innerText = Object.keys(books.docs).length;
+    total.innerText = books.numFound;
+
     // When no search result found
     if(Object.keys(books.docs).length === 0){
         searchResult.classList.add('text-center');
@@ -26,9 +32,11 @@ const displaySearchResult = books =>{
         `
     }
     
+    
     // Looping the books using forEach
     books.docs.forEach(book=>{
         const div = document.createElement('div');
+
         // Adding a class in div
         div.classList.add('col');
         div.innerHTML = `
@@ -42,6 +50,7 @@ const displaySearchResult = books =>{
             </div>
         </div>
         `
+
         // Appending the div to searchResult area
         searchResult.appendChild(div);
     })
